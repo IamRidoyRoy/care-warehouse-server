@@ -20,7 +20,7 @@ app.listen(port, () => {
 
 // Connect with mongoDB
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.az3oh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 async function run() {
@@ -35,7 +35,20 @@ async function run() {
             res.send(cars);
         })
 
+        app.get('/inventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const cars = await carCollection.findOne(query);
+            res.send(cars);
 
+        })
+        // DELETE
+        app.delete('/inventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await carCollection.deleteOne(query);
+            res.send(result);
+        })
     }
     finally {
 
