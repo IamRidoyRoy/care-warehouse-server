@@ -35,6 +35,13 @@ async function run() {
             res.send(cars);
         })
 
+        // Add new car from client side
+        app.post('/car', async (req, res) => {
+            const newService = req.body;
+            const result = await carCollection.insertOne(newService);
+            res.send(result);
+        })
+
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -42,6 +49,8 @@ async function run() {
             res.send(cars);
 
         })
+
+
         // DELETE
         app.delete('/inventory/:id', async (req, res) => {
             const id = req.params.id;
