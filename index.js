@@ -42,12 +42,12 @@ async function run() {
             res.send(result);
         })
 
+        // Api for grting car by specific id
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const cars = await carCollection.findOne(query);
             res.send(cars);
-
         })
 
 
